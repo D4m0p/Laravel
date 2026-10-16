@@ -181,9 +181,9 @@ correctas redirige a `/home`.
 ### Rutas – `routes/web.php`
 
 ```php
-Route::redirect('/', '/login');   // la raíz lleva directo al login
+Route::redirect('/', '/login');
 
-Auth::routes();   // login, logout, register, reset de contraseña
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 ```
@@ -193,7 +193,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 ```php
 public function __construct()
 {
-    $this->middleware('auth');   // solo usuarios autenticados
+    // solo entran usuarios con sesión iniciada
+    $this->middleware('auth');
 }
 
 public function index()
@@ -205,6 +206,7 @@ public function index()
 ### Validación y registro – `app/Http/Controllers/Auth/RegisterController.php`
 
 ```php
+// reglas del formulario de registro
 protected function validator(array $data)
 {
     return Validator::make($data, [
@@ -214,12 +216,13 @@ protected function validator(array $data)
     ]);
 }
 
+// guarda el usuario con la contraseña encriptada
 protected function create(array $data)
 {
     return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
-        'password' => Hash::make($data['password']),   // se guarda con bcrypt
+        'password' => Hash::make($data['password']),
     ]);
 }
 ```
