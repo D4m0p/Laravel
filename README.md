@@ -181,9 +181,7 @@ correctas redirige a `/home`.
 ### Rutas – `routes/web.php`
 
 ```php
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/login');   // la raíz lleva directo al login
 
 Auth::routes();   // login, logout, register, reset de contraseña
 
